@@ -7,19 +7,42 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06578703283248E20097F3BB /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 06578702283248E20097F3BB /* KeyboardShortcuts */; };
+		065787052832497D0097F3BB /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065787042832497D0097F3BB /* SettingsScreen.swift */; };
+		0657870728324D4C0097F3BB /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0657870628324D4C0097F3BB /* AppState.swift */; };
 		065D43D7281FC1E50078EC9D /* DualPresenterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065D43D6281FC1E50078EC9D /* DualPresenterApp.swift */; };
-		065D43D9281FC1E50078EC9D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065D43D8281FC1E50078EC9D /* ContentView.swift */; };
+		065D43D9281FC1E50078EC9D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065D43D8281FC1E50078EC9D /* MainView.swift */; };
 		065D43DB281FC1E80078EC9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 065D43DA281FC1E80078EC9D /* Assets.xcassets */; };
-		065D43DE281FC1E80078EC9D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 065D43DD281FC1E80078EC9D /* Preview Assets.xcassets */; };
+		06625A9B28296D18003B2B6D /* CustomizableTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06625A9A28296D18003B2B6D /* CustomizableTextEditor.swift */; };
+		06625A9D28297A46003B2B6D /* Presentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06625A9C28297A46003B2B6D /* Presentation.swift */; };
+		06625A9F28297B36003B2B6D /* SlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06625A9E28297B36003B2B6D /* SlideView.swift */; };
+		06625AA628297FF5003B2B6D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06625AA528297FF5003B2B6D /* Extensions.swift */; };
+		066D5268282A39BA008C0200 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066D5267282A39BA008C0200 /* PreviewView.swift */; };
+		066D526A282A3A3A008C0200 /* ScreenGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066D5269282A3A3A008C0200 /* ScreenGrabber.swift */; };
+		06F36629282416B50037B965 /* KeyEventHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F36628282416B50037B965 /* KeyEventHandling.swift */; };
+		06F3662B282957E60037B965 /* Slide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F3662A282957E60037B965 /* Slide.swift */; };
+		06F3662D28295F4C0037B965 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F3662C28295F4C0037B965 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		06336B5D2829A7C8003AEBFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		06578700283248720097F3BB /* KeyboardShortcuts */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = KeyboardShortcuts; path = ../KeyboardShortcuts; sourceTree = "<group>"; };
+		065787042832497D0097F3BB /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
+		0657870628324D4C0097F3BB /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		065D43D3281FC1E50078EC9D /* DualPresenter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DualPresenter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		065D43D6281FC1E50078EC9D /* DualPresenterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DualPresenterApp.swift; sourceTree = "<group>"; };
-		065D43D8281FC1E50078EC9D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		065D43D8281FC1E50078EC9D /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		065D43DA281FC1E80078EC9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		065D43DD281FC1E80078EC9D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		065D43DF281FC1E80078EC9D /* DualPresenter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DualPresenter.entitlements; sourceTree = "<group>"; };
+		06625A9A28296D18003B2B6D /* CustomizableTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizableTextEditor.swift; sourceTree = "<group>"; };
+		06625A9C28297A46003B2B6D /* Presentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentation.swift; sourceTree = "<group>"; };
+		06625A9E28297B36003B2B6D /* SlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideView.swift; sourceTree = "<group>"; };
+		06625AA528297FF5003B2B6D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		066D5267282A39BA008C0200 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
+		066D5269282A3A3A008C0200 /* ScreenGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenGrabber.swift; sourceTree = "<group>"; };
+		06F36628282416B50037B965 /* KeyEventHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyEventHandling.swift; sourceTree = "<group>"; };
+		06F3662A282957E60037B965 /* Slide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slide.swift; sourceTree = "<group>"; };
+		06F3662C28295F4C0037B965 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,17 +50,35 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06578703283248E20097F3BB /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		065786FF283248720097F3BB /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				06578700283248720097F3BB /* KeyboardShortcuts */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		06578701283248E20097F3BB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		065D43CA281FC1E50078EC9D = {
 			isa = PBXGroup;
 			children = (
+				065786FF283248720097F3BB /* Packages */,
 				065D43D5281FC1E50078EC9D /* DualPresenter */,
 				065D43D4281FC1E50078EC9D /* Products */,
+				06578701283248E20097F3BB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -52,21 +93,48 @@
 		065D43D5281FC1E50078EC9D /* DualPresenter */ = {
 			isa = PBXGroup;
 			children = (
+				06336B5D2829A7C8003AEBFD /* Info.plist */,
+				06625AA428297BEE003B2B6D /* Views */,
+				06625AA328297BD6003B2B6D /* Helpers */,
+				06625AA228297B9D003B2B6D /* Models */,
 				065D43D6281FC1E50078EC9D /* DualPresenterApp.swift */,
-				065D43D8281FC1E50078EC9D /* ContentView.swift */,
 				065D43DA281FC1E80078EC9D /* Assets.xcassets */,
 				065D43DF281FC1E80078EC9D /* DualPresenter.entitlements */,
-				065D43DC281FC1E80078EC9D /* Preview Content */,
+				06F3662C28295F4C0037B965 /* AppDelegate.swift */,
+				0657870628324D4C0097F3BB /* AppState.swift */,
 			);
 			path = DualPresenter;
 			sourceTree = "<group>";
 		};
-		065D43DC281FC1E80078EC9D /* Preview Content */ = {
+		06625AA228297B9D003B2B6D /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				065D43DD281FC1E80078EC9D /* Preview Assets.xcassets */,
+				06625A9C28297A46003B2B6D /* Presentation.swift */,
+				06F3662A282957E60037B965 /* Slide.swift */,
 			);
-			path = "Preview Content";
+			path = Models;
+			sourceTree = "<group>";
+		};
+		06625AA328297BD6003B2B6D /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				06F36628282416B50037B965 /* KeyEventHandling.swift */,
+				06625A9A28296D18003B2B6D /* CustomizableTextEditor.swift */,
+				06625AA528297FF5003B2B6D /* Extensions.swift */,
+				066D5269282A3A3A008C0200 /* ScreenGrabber.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		06625AA428297BEE003B2B6D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				065D43D8281FC1E50078EC9D /* MainView.swift */,
+				06625A9E28297B36003B2B6D /* SlideView.swift */,
+				066D5267282A39BA008C0200 /* PreviewView.swift */,
+				065787042832497D0097F3BB /* SettingsScreen.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -85,6 +153,9 @@
 			dependencies = (
 			);
 			name = DualPresenter;
+			packageProductDependencies = (
+				06578702283248E20097F3BB /* KeyboardShortcuts */,
+			);
 			productName = DualPresenter;
 			productReference = 065D43D3281FC1E50078EC9D /* DualPresenter.app */;
 			productType = "com.apple.product-type.application";
@@ -113,6 +184,8 @@
 				Base,
 			);
 			mainGroup = 065D43CA281FC1E50078EC9D;
+			packageReferences = (
+			);
 			productRefGroup = 065D43D4281FC1E50078EC9D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -127,7 +200,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				065D43DE281FC1E80078EC9D /* Preview Assets.xcassets in Resources */,
 				065D43DB281FC1E80078EC9D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -139,8 +211,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				065D43D9281FC1E50078EC9D /* ContentView.swift in Sources */,
+				06F36629282416B50037B965 /* KeyEventHandling.swift in Sources */,
+				066D526A282A3A3A008C0200 /* ScreenGrabber.swift in Sources */,
+				06625AA628297FF5003B2B6D /* Extensions.swift in Sources */,
+				06625A9D28297A46003B2B6D /* Presentation.swift in Sources */,
+				065787052832497D0097F3BB /* SettingsScreen.swift in Sources */,
+				065D43D9281FC1E50078EC9D /* MainView.swift in Sources */,
 				065D43D7281FC1E50078EC9D /* DualPresenterApp.swift in Sources */,
+				066D5268282A39BA008C0200 /* PreviewView.swift in Sources */,
+				06625A9B28296D18003B2B6D /* CustomizableTextEditor.swift in Sources */,
+				06F3662D28295F4C0037B965 /* AppDelegate.swift in Sources */,
+				0657870728324D4C0097F3BB /* AppState.swift in Sources */,
+				06625A9F28297B36003B2B6D /* SlideView.swift in Sources */,
+				06F3662B282957E60037B965 /* Slide.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,14 +349,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DualPresenter/DualPresenter.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"DualPresenter/Preview Content\"";
 				DEVELOPMENT_TEAM = U69L99G3AF;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DualPresenter/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -293,14 +378,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DualPresenter/DualPresenter.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"DualPresenter/Preview Content\"";
 				DEVELOPMENT_TEAM = U69L99G3AF;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DualPresenter/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -336,6 +423,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		06578702283248E20097F3BB /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = KeyboardShortcuts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 065D43CB281FC1E50078EC9D /* Project object */;
 }
