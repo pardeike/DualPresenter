@@ -89,6 +89,9 @@ struct MainView: View {
 			KeyboardShortcuts.onKeyDown(for: .app1FromRight) {
 				NSNotification.post("screen", 6)
 			}
+			KeyboardShortcuts.onKeyDown(for: .app1FromCenter) {
+				NSNotification.post("screen", 5)
+			}
 			KeyboardShortcuts.onKeyDown(for: .app1FromTop) {
 				NSNotification.post("screen", 8)
 			}
@@ -104,44 +107,12 @@ struct MainView: View {
 					if cmd && opt {
 						showSettings.toggle()
 					}
-				case "1", "2", "3", "4", "5", "6", "7", "8", "9":
-					if cmd, let n = Int(key) {
-						NSNotification.post("screen", n)
-					}
 				case "q":
 					if cmd && opt {
-						if let window = NSApplication.shared.windows.first, cmd {
-							window.alphaValue = 0
-						}
-						DispatchQueue.main.async {
-							exit(0)
-						}
+						NSApplication.shared.windows.forEach { $0.alphaValue = 0 }
+						DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) { exit(0) }
 					}
 				default:
-					switch code {
-						case 36: // return
-							if cmd {
-								NSNotification.post("screen", 5)
-							}
-						case 123: // arrow left
-							if cmd {
-								NSNotification.post("screen", 4)
-							}
-						case 124: // arrow right
-							if cmd {
-								NSNotification.post("screen", 6)
-							}
-						case 125: // arrow down
-							if cmd {
-								NSNotification.post("screen", 2)
-							}
-						case 126: // arrow up
-							if cmd {
-								NSNotification.post("screen", 8)
-							}
-						default:
-							print("[\(key)] \(code)")
-					}
 					break
 			}
 		})

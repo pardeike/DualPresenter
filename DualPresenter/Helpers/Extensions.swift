@@ -13,8 +13,11 @@ extension NSNotification {
 	class func post(_ name: String) {
 		NotificationCenter.default.post(name: NSNotification.Name(name), object: nil)
 	}
-	class func post(_ name: String, _ n: Int) {
-		NotificationCenter.default.post(name: NSNotification.Name(name), object: nil, userInfo: ["n": n])
+	class func post(_ name: String, _ a: Int) {
+		NotificationCenter.default.post(name: NSNotification.Name(name), object: nil, userInfo: ["a": a])
+	}
+	class func post(_ name: String, _ a: Int, _ b: Int) {
+		NotificationCenter.default.post(name: NSNotification.Name(name), object: nil, userInfo: ["a": a, "b": b])
 	}
 	class func publisher(_ name: String) -> AnyPublisher<NotificationCenter.Publisher.Output, NotificationCenter.Publisher.Failure> {
 		NotificationCenter.default.publisher(for: NSNotification.Name(name)).eraseToAnyPublisher()

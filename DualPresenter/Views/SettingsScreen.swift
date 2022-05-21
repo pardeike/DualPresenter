@@ -14,10 +14,12 @@ extension KeyboardShortcuts.Name {
 	static let app1FromRight = Self("app1FromRight")
 	static let app1FromTop = Self("app1FromTop")
 	static let app1FromBottom = Self("app1FromBottom")
+	static let app1FromCenter = Self("app1FromCenter")
 	static let app2FromLeft = Self("app2FromLeft")
 	static let app2FromRight = Self("app2FromRight")
 	static let app2FromTop = Self("app2FromTop")
 	static let app2FromBottom = Self("app2FromBottom")
+	static let app2FromCenter = Self("app2FromCenter")
 }
 
 struct SettingsScreen: View {
@@ -50,6 +52,7 @@ struct SettingsScreen: View {
 					Section("App 1") {
 						KeyboardShortcuts.Recorder("From Left", name: .app1FromLeft)
 						KeyboardShortcuts.Recorder("From Right", name: .app1FromRight)
+						KeyboardShortcuts.Recorder("From Center", name: .app1FromCenter)
 						KeyboardShortcuts.Recorder("From Top", name: .app1FromTop)
 						KeyboardShortcuts.Recorder("From Bottom", name: .app1FromBottom)
 							.padding(.bottom, 20)
@@ -57,6 +60,7 @@ struct SettingsScreen: View {
 					Section("App 2") {
 						KeyboardShortcuts.Recorder("From Left", name: .app2FromLeft)
 						KeyboardShortcuts.Recorder("From Right", name: .app2FromRight)
+						KeyboardShortcuts.Recorder("From Center", name: .app2FromCenter)
 						KeyboardShortcuts.Recorder("From Top", name: .app2FromTop)
 						KeyboardShortcuts.Recorder("From Bottom", name: .app2FromBottom)
 							.padding(.bottom, 20)

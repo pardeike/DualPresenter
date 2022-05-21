@@ -7,10 +7,13 @@ class PreviewView: NSView {
 	
 	override init(frame frameRect: NSRect) {
 		super.init(frame: frameRect)
+		displayLayer.preventsDisplaySleepDuringVideoPlayback = true
+		displayLayer.frame = NSRect.zero
+		displayLayer.backgroundColor = .clear
+		displayLayer.videoGravity = .resize
 		layer = displayLayer
-		wantsLayer = true
 	}
-	
+
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}

@@ -20,75 +20,82 @@ struct SlideView: View {
 	
 	func p(_ geo: GeometryProxy) -> CGFloat { 80 /* geo.size.height / 12 */ }
 	
-	func setScreenState(_ n: Int) {
-		if lastScreenState == n {
+	func setScreenState(_ a: Int?, _ b: Int?) {
+		guard let a = a else { return }
+		print(a, lastScreenState)
+		if lastScreenState == a {
 			offsetX[1] = offsetX[0]
 			offsetY[1] = offsetY[0]
 			sizeX[1] = sizeX[0]
 			sizeY[1] = sizeY[0]
-			lastScreenState = -n
+			lastScreenState = -a
 			animateScreen += 1
 			return
 		}
 		
-		if n == 1 {
-			offsetX = [-0.25, 0.25]
-			offsetY = [1.25, 0.75]
-			sizeX = [0.5, 0.5]
-			sizeY = [0.5, 0.5]
-		}
-		if n == 2 {
-			offsetX = [0.5, 0.5]
-			offsetY = [1.25, 0.75]
-			sizeX = [1, 1]
-			sizeY = [0.5, 0.5]
-		}
-		if n == 3 {
-			offsetX = [1.25, 0.75]
-			offsetY = [1.25, 0.75]
-			sizeX = [0.5, 0.5]
-			sizeY = [0.5, 0.5]
-		}
-		if n == 4 {
-			offsetX = [-0.25, 0.25]
-			offsetY = [0.5, 0.5]
-			sizeX = [0.5, 0.5]
-			sizeY = [1, 1]
-		}
-		if n == 5 {
-			offsetX = [0.5, 0.5]
-			offsetY = [0.5, 0.5]
-			sizeX = [0, 1]
-			sizeY = [0, 1]
-		}
-		if n == 6 {
-			offsetX = [1.25, 0.75]
-			offsetY = [0.5, 0.5]
-			sizeX = [0.5, 0.5]
-			sizeY = [1, 1]
-		}
-		if n == 7 {
-			offsetX = [-0.25, 0.25]
-			offsetY = [-0.25, 0.25]
-			sizeX = [0.5, 0.5]
-			sizeY = [0.5, 0.5]
-		}
-		if n == 8 {
-			offsetX = [0.5, 0.5]
-			offsetY = [-0.25, 0.25]
-			sizeX = [1, 1]
-			sizeY = [0.5, 0.5]
-		}
-		if n == 9 {
-			offsetX = [1.25, 0.75]
-			offsetY = [-0.25, 0.25]
-			sizeX = [0.5, 0.5]
-			sizeY = [0.5, 0.5]
-		}
+		lastScreenState = -a
+		animateScreen += 1
 		
-		DispatchQueue.main.async {
-			lastScreenState = n
-			animateScreen += 1
+		DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(210)) {
+			if a == 1 {
+				offsetX = [-0.25, 0.25]
+				offsetY = [1.25, 0.75]
+				sizeX = [0.5, 0.5]
+				sizeY = [0.5, 0.5]
+			}
+			if a == 2 {
+				offsetX = [0.5, 0.5]
+				offsetY = [1.25, 0.75]
+				sizeX = [1, 1]
+				sizeY = [0.5, 0.5]
+			}
+			if a == 3 {
+				offsetX = [1.25, 0.75]
+				offsetY = [1.25, 0.75]
+				sizeX = [0.5, 0.5]
+				sizeY = [0.5, 0.5]
+			}
+			if a == 4 {
+				offsetX = [-0.25, 0.25]
+				offsetY = [0.5, 0.5]
+				sizeX = [0.5, 0.5]
+				sizeY = [1, 1]
+			}
+			if a == 5 {
+				offsetX = [0.5, 0.5]
+				offsetY = [0.5, 0.5]
+				sizeX = [0.0001, 1]
+				sizeY = [0.0001, 1]
+			}
+			if a == 6 {
+				offsetX = [1.25, 0.75]
+				offsetY = [0.5, 0.5]
+				sizeX = [0.5, 0.5]
+				sizeY = [1, 1]
+			}
+			if a == 7 {
+				offsetX = [-0.25, 0.25]
+				offsetY = [-0.25, 0.25]
+				sizeX = [0.5, 0.5]
+				sizeY = [0.5, 0.5]
+			}
+			if a == 8 {
+				offsetX = [0.5, 0.5]
+				offsetY = [-0.25, 0.25]
+				sizeX = [1, 1]
+				sizeY = [0.5, 0.5]
+			}
+			if a == 9 {
+				offsetX = [1.25, 0.75]
+				offsetY = [-0.25, 0.25]
+				sizeX = [0.5, 0.5]
+				sizeY = [0.5, 0.5]
+			}
+		
+			DispatchQueue.main.async {
+				lastScreenState = a
+				animateScreen += 1
+			}
 		}
 	}
 	
@@ -110,16 +117,18 @@ struct SlideView: View {
 				}
 				.padding(EdgeInsets(top: p(geo), leading: p(geo), bottom: 40, trailing: p(geo)))
 				
-				ScreenGrabber(app: "Xcode")
-					.position(x: offsetX(geo), y: offsetY(geo))
-					.frame(width: sizeX(geo), height: sizeY(geo))
-					.animation(.linear(duration: 0.2), value: animateScreen)
+				if sizeX(geo) > 0.0001 {
+					ScreenGrabber(app: "Xcode", width: sizeX(geo), height: sizeY(geo))
+						.position(x: offsetX(geo), y: offsetY(geo))
+						.frame(width: sizeX(geo), height: sizeY(geo))
+						.animation(.linear(duration: 0.2), value: animateScreen)
+				}
 			}
 		}
 		.onReceive(NSNotification.publisher("screen")) { val in
-			if let n = val.userInfo?["n"] as? Int {
-				setScreenState(n)
-			}
+			let a = val.userInfo?["a"] as? Int
+			let b = val.userInfo?["b"] as? Int
+			setScreenState(a, b)
 		}
 	}
 }
