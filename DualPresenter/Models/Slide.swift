@@ -1,21 +1,37 @@
 import SwiftUI
 
-struct SlideText {
+struct SlideText: Codable {
 	var text: NSAttributedString
 	var size: Int
-	var alignment: Alignment
 	
-	init(text: String, size: Int, alignment: Alignment) {
+	init(text: String, size: Int) {
 		let txt = NSMutableAttributedString(string: text)
 		txt.addAttribute(.foregroundColor, value: NSColor.white, range: NSRange(location: 0, length: txt.length))
 		txt.addAttribute(.font, value: NSFont.systemFont(ofSize: CGFloat(size)), range: NSRange(location: 0, length: txt.length))
 		self.text = txt
 		self.size = size
-		self.alignment = alignment
+	}
+	
+	init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		let box = try? container.decode(ArchiverBox<NSAttributedString>.self, forKey: .text)
+		text = box?.value ?? NSAttributedString()
+		size = (try? container.decode(Int.self, forKey: .size)) ?? 12
+	}
+	
+	enum CodingKeys: String, CodingKey {
+		case text
+		case size
+	}
+	
+	func encode(to encoder: Encoder) throws {
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		try? container.encode(ArchiverBox(text), forKey: .text)
+		try? container.encode(size, forKey: .size)
 	}
 }
 
-struct Slide {
-	var title = SlideText(text: "", size: 64, alignment: .leading)
-	var content = SlideText(text: "", size: 48, alignment: .leading)
+struct Slide: Codable {
+	var title = SlideText(text: "", size: 64)
+	var content = SlideText(text: "", size: 48)
 }

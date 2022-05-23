@@ -1,10 +1,10 @@
 import SwiftUI
 
-struct SlideView: View {
+struct SlideViewGrabber: View {
 	
-	let slideNr: Int
-	let slideCount: Int
-	@Binding var currentSlide: Slide
+	let size: CGSize
+	let name: String
+	let idx: Int
 	
 	@State var animateScreen = 0
 	@State var lastScreenState = -999
@@ -13,91 +13,92 @@ struct SlideView: View {
 	@State var sizeX: [Double] = [0, 0]
 	@State var sizeY: [Double] = [0, 0]
 	
-	func offsetX(_ geo: GeometryProxy) -> Double { geo.size.width * offsetX[lastScreenState < 0 ? 0 : 1] }
-	func offsetY(_ geo: GeometryProxy) -> Double { geo.size.height * offsetY[lastScreenState < 0 ? 0 : 1] }
-	func sizeX(_ geo: GeometryProxy) -> Double { geo.size.width * sizeX[lastScreenState < 0 ? 0 : 1] }
-	func sizeY(_ geo: GeometryProxy) -> Double { geo.size.height * sizeY[lastScreenState < 0 ? 0 : 1] }
+	func oX() -> Double { size.width * offsetX[lastScreenState < 0 ? 0 : 1] }
+	func oY() -> Double { size.height * offsetY[lastScreenState < 0 ? 0 : 1] }
+	func sX() -> Double { size.width * sizeX[lastScreenState < 0 ? 0 : 1] }
+	func sY() -> Double { size.height * sizeY[lastScreenState < 0 ? 0 : 1] }
 	
-	func p(_ geo: GeometryProxy) -> CGFloat { 80 /* geo.size.height / 12 */ }
-	
-	func setScreenState(_ a: Int?, _ b: Int?) {
-		guard let a = a else { return }
-		print(a, lastScreenState)
-		if lastScreenState == a {
+	func setScreenState(_ idx: Int?) {
+		
+		guard let idx = idx else { return }
+		if lastScreenState == idx {
 			offsetX[1] = offsetX[0]
 			offsetY[1] = offsetY[0]
 			sizeX[1] = sizeX[0]
 			sizeY[1] = sizeY[0]
-			lastScreenState = -a
+			lastScreenState = -idx
 			animateScreen += 1
 			return
 		}
 		
-		lastScreenState = -a
+		lastScreenState = -idx
 		animateScreen += 1
 		
 		DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(210)) {
-			if a == 1 {
-				offsetX = [-0.25, 0.25]
-				offsetY = [1.25, 0.75]
-				sizeX = [0.5, 0.5]
-				sizeY = [0.5, 0.5]
-			}
-			if a == 2 {
+			if idx == 2 {
 				offsetX = [0.5, 0.5]
-				offsetY = [1.25, 0.75]
+				offsetY = [1, 0.5]
 				sizeX = [1, 1]
 				sizeY = [0.5, 0.5]
 			}
-			if a == 3 {
-				offsetX = [1.25, 0.75]
-				offsetY = [1.25, 0.75]
-				sizeX = [0.5, 0.5]
-				sizeY = [0.5, 0.5]
-			}
-			if a == 4 {
-				offsetX = [-0.25, 0.25]
+			if idx == 4 {
+				offsetX = [-0.5, 0]
 				offsetY = [0.5, 0.5]
 				sizeX = [0.5, 0.5]
 				sizeY = [1, 1]
 			}
-			if a == 5 {
-				offsetX = [0.5, 0.5]
-				offsetY = [0.5, 0.5]
+			if idx == 5 {
+				offsetX = [0, 0.5]
+				offsetY = [0, 0.5]
 				sizeX = [0.0001, 1]
 				sizeY = [0.0001, 1]
 			}
-			if a == 6 {
-				offsetX = [1.25, 0.75]
+			if idx == 6 {
+				offsetX = [1, 0.5]
 				offsetY = [0.5, 0.5]
 				sizeX = [0.5, 0.5]
 				sizeY = [1, 1]
 			}
-			if a == 7 {
-				offsetX = [-0.25, 0.25]
-				offsetY = [-0.25, 0.25]
-				sizeX = [0.5, 0.5]
-				sizeY = [0.5, 0.5]
-			}
-			if a == 8 {
+			if idx == 8 {
 				offsetX = [0.5, 0.5]
-				offsetY = [-0.25, 0.25]
+				offsetY = [-0.5, 0]
 				sizeX = [1, 1]
 				sizeY = [0.5, 0.5]
 			}
-			if a == 9 {
-				offsetX = [1.25, 0.75]
-				offsetY = [-0.25, 0.25]
-				sizeX = [0.5, 0.5]
-				sizeY = [0.5, 0.5]
-			}
-		
+			
 			DispatchQueue.main.async {
-				lastScreenState = a
+				lastScreenState = idx
 				animateScreen += 1
 			}
 		}
 	}
+	
+	var body: some View {
+		ZStack {
+			if sX() > 0.0001 {
+				ScreenGrabber(app: name, width: sX(), height: sY())
+					.position(x: oX(), y: oY())
+					.frame(width: sX(), height: sY())
+					.animation(.linear(duration: 0.2), value: animateScreen)
+			}
+		}
+		.frame(width: size.width, height: size.height)
+		.onReceive(NSNotification.publisher("screen")) { val in
+			if let n = val.userInfo?["a"] as? Int, n == idx {
+				let b = val.userInfo?["b"] as? Int
+				setScreenState(b)
+			}
+		}
+	}
+}
+
+struct SlideView: View {
+	
+	let slideNr: Int
+	let slideCount: Int
+	@Binding var currentSlide: Slide
+	
+	func p(_ geo: GeometryProxy) -> CGFloat { 80 /* geo.size.height / 12 */ }
 	
 	var body: some View {
 		GeometryReader { geo in
@@ -117,18 +118,9 @@ struct SlideView: View {
 				}
 				.padding(EdgeInsets(top: p(geo), leading: p(geo), bottom: 40, trailing: p(geo)))
 				
-				if sizeX(geo) > 0.0001 {
-					ScreenGrabber(app: "Xcode", width: sizeX(geo), height: sizeY(geo))
-						.position(x: offsetX(geo), y: offsetY(geo))
-						.frame(width: sizeX(geo), height: sizeY(geo))
-						.animation(.linear(duration: 0.2), value: animateScreen)
-				}
+				SlideViewGrabber(size: geo.size, name: "Xcode", idx: 1)
+				SlideViewGrabber(size: geo.size, name: "Code", idx: 2)
 			}
-		}
-		.onReceive(NSNotification.publisher("screen")) { val in
-			let a = val.userInfo?["a"] as? Int
-			let b = val.userInfo?["b"] as? Int
-			setScreenState(a, b)
 		}
 	}
 }

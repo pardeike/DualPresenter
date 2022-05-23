@@ -6,7 +6,7 @@ struct MainView: View {
 	// @StateObject var appState: AppState
 	
 	@State var showSettings = false
-	@State var presentation = Presentation()
+	@State var presentation = Presentation.load(presentationURL())
 	@State var currentSlide = Slide()
 	@State var fullScreen = false
 	@State var slideNr = -1
@@ -14,6 +14,18 @@ struct MainView: View {
 	//init() {
 	//	_appState = StateObject(wrappedValue: AppState())
 	//}
+	
+	static func presentationURL() -> URL {
+		let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+		return paths[0].appendingPathComponent("dualpresenter.json")
+	}
+	
+	func save() {
+		if slideNr != -1 {
+			presentation.slides[slideNr] = currentSlide
+			presentation.save(MainView.presentationURL())
+		}
+	}
 	
 	var body: some View {
 		HStack {
@@ -30,6 +42,12 @@ struct MainView: View {
 		.sheet(isPresented: $showSettings) {
 			SettingsScreen() {
 				showSettings.toggle()
+			}
+		}
+		.onAppear {
+			if let first = presentation.slides.first {
+				slideNr = 0
+				currentSlide = first
 			}
 		}
 		.onAppear {
@@ -64,6 +82,7 @@ struct MainView: View {
 				slideNr += 1
 				currentSlide = Slide()
 				presentation.slides.insert(currentSlide, at: slideNr)
+				save()
 			}
 			KeyboardShortcuts.onKeyDown(for: .deleteCurrentSlide) {
 				if presentation.slides.isEmpty == false {
@@ -75,6 +94,7 @@ struct MainView: View {
 					} else {
 						currentSlide = presentation.slides[slideNr]
 					}
+					save()
 				}
 			}
 			KeyboardShortcuts.onKeyDown(for: .selectTitleField) {
@@ -84,36 +104,52 @@ struct MainView: View {
 				NSNotification.post("select-content")
 			}
 			KeyboardShortcuts.onKeyDown(for: .app1FromLeft) {
-				NSNotification.post("screen", 4)
+				NSNotification.post("screen", 1, 4)
 			}
 			KeyboardShortcuts.onKeyDown(for: .app1FromRight) {
-				NSNotification.post("screen", 6)
+				NSNotification.post("screen", 1, 6)
 			}
 			KeyboardShortcuts.onKeyDown(for: .app1FromCenter) {
-				NSNotification.post("screen", 5)
+				NSNotification.post("screen", 1, 5)
 			}
 			KeyboardShortcuts.onKeyDown(for: .app1FromTop) {
-				NSNotification.post("screen", 8)
+				NSNotification.post("screen", 1, 8)
 			}
 			KeyboardShortcuts.onKeyDown(for: .app1FromBottom) {
-				NSNotification.post("screen", 2)
+				NSNotification.post("screen", 1, 2)
+			}
+			KeyboardShortcuts.onKeyDown(for: .app2FromLeft) {
+				NSNotification.post("screen", 2, 4)
+			}
+			KeyboardShortcuts.onKeyDown(for: .app2FromRight) {
+				NSNotification.post("screen", 2, 6)
+			}
+			KeyboardShortcuts.onKeyDown(for: .app2FromCenter) {
+				NSNotification.post("screen", 2, 5)
+			}
+			KeyboardShortcuts.onKeyDown(for: .app2FromTop) {
+				NSNotification.post("screen", 2, 8)
+			}
+			KeyboardShortcuts.onKeyDown(for: .app2FromBottom) {
+				NSNotification.post("screen", 2, 2)
 			}
 		}
 		.background(KeyEventHandling { key, code, modifiers in
 			let cmd = modifiers.contains(.command)
 			let opt = modifiers.contains(.option)
-			switch key {
-				case ".":
-					if cmd && opt {
+			if cmd && opt {
+				switch key {
+					case ".":
 						showSettings.toggle()
-					}
-				case "q":
-					if cmd && opt {
+					case "s":
+						save()
+					case "q":
+						save()
 						NSApplication.shared.windows.forEach { $0.alphaValue = 0 }
 						DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) { exit(0) }
-					}
-				default:
-					break
+					default:
+						break
+				}
 			}
 		})
 	}

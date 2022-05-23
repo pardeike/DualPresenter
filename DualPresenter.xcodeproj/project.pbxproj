@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06287C80283BBBC20043F87A /* ArchiverBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06287C7F283BBBC20043F87A /* ArchiverBox.swift */; };
 		06578703283248E20097F3BB /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 06578702283248E20097F3BB /* KeyboardShortcuts */; };
 		065787052832497D0097F3BB /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065787042832497D0097F3BB /* SettingsScreen.swift */; };
 		0657870728324D4C0097F3BB /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0657870628324D4C0097F3BB /* AppState.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		06287C7F283BBBC20043F87A /* ArchiverBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiverBox.swift; sourceTree = "<group>"; };
 		06336B5D2829A7C8003AEBFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		06578700283248720097F3BB /* KeyboardShortcuts */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = KeyboardShortcuts; path = ../KeyboardShortcuts; sourceTree = "<group>"; };
 		065787042832497D0097F3BB /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				06625A9A28296D18003B2B6D /* CustomizableTextEditor.swift */,
 				06625AA528297FF5003B2B6D /* Extensions.swift */,
 				066D5269282A3A3A008C0200 /* ScreenGrabber.swift */,
+				06287C7F283BBBC20043F87A /* ArchiverBox.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -220,6 +223,7 @@
 				065D43D7281FC1E50078EC9D /* DualPresenterApp.swift in Sources */,
 				066D5268282A39BA008C0200 /* PreviewView.swift in Sources */,
 				06625A9B28296D18003B2B6D /* CustomizableTextEditor.swift in Sources */,
+				06287C80283BBBC20043F87A /* ArchiverBox.swift in Sources */,
 				06F3662D28295F4C0037B965 /* AppDelegate.swift in Sources */,
 				0657870728324D4C0097F3BB /* AppState.swift in Sources */,
 				06625A9F28297B36003B2B6D /* SlideView.swift in Sources */,

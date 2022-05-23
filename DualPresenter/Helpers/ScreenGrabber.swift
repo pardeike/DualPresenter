@@ -2,8 +2,6 @@ import AppKit
 import SwiftUI
 import ScreenCaptureKit
 
-var currentStream: SCStream?
-
 struct ScreenGrabber: View {
 	let app: String
 	let width: Double
@@ -11,6 +9,7 @@ struct ScreenGrabber: View {
 	
 	var body: some View {
 		ScreenGrabberRepresentable(app: app, width: width, height: height)
+			.background(.black.opacity(0.2))
 	}
 }
 
@@ -54,6 +53,7 @@ struct ScreenGrabberRepresentable: NSViewRepresentable {
 	class Coordinator: NSObject, SCStreamOutput {
 		let app: String
 		let previewView: PreviewView
+		var currentStream: SCStream?
 		
 		func streamConfiguration(window: SCWindow, screenWidth: Double, screenHeight: Double) -> SCStreamConfiguration {
 			let streamConfig = SCStreamConfiguration()
@@ -69,7 +69,7 @@ struct ScreenGrabberRepresentable: NSViewRepresentable {
 		}
 		
 		func isAppWindow(_ window: SCWindow) -> Bool {
-			return window.isOnScreen && window.frame.width > 400 && (window.owningApplication?.applicationName ?? "").contains(self.app)
+			return window.isOnScreen && window.frame.width > 400 && (window.owningApplication?.applicationName ?? "") == self.app
 		}
 		
 		func getXCodeWindow() -> SCWindow? {
