@@ -3,17 +3,18 @@ import KeyboardShortcuts
 
 struct MainView: View {
 	
-	// @StateObject var appState: AppState
+	@StateObject var appState: AppState
 	
 	@State var showSettings = false
+	@State var showSourceCode = false
 	@State var presentation = Presentation.load(presentationURL())
 	@State var currentSlide = Slide()
 	@State var fullScreen = false
 	@State var slideNr = -1
 	
-	//init() {
-	//	_appState = StateObject(wrappedValue: AppState())
-	//}
+	init() {
+		_appState = StateObject(wrappedValue: AppState())
+	}
 	
 	static func presentationURL() -> URL {
 		let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -44,6 +45,9 @@ struct MainView: View {
 				showSettings.toggle()
 			}
 		}
+		.sheet(isPresented: $showSourceCode) {
+			SourceCode(source: $currentSlide.source)
+		}
 		.onAppear {
 			if let first = presentation.slides.first {
 				slideNr = 0
@@ -54,6 +58,33 @@ struct MainView: View {
 			KeyboardShortcuts.onKeyDown(for: .toggleFullscreen) {
 				if let window = NSApplication.shared.windows.first {
 					window.toggleFullScreen(nil)
+				}
+			}
+			KeyboardShortcuts.onKeyDown(for: .toggleSourceCode) {
+				if slideNr >= 0 || showSourceCode {
+					showSourceCode.toggle()
+					if showSourceCode == false {
+						save()
+					}
+				}
+			}
+			KeyboardShortcuts.onKeyDown(for: .insertSourceCode) {
+				if slideNr >= 0 {
+					let source = currentSlide.source
+					if source.count > 0 {
+						let pb = NSPasteboard.general
+						var oldPaste = [(NSPasteboard.PasteboardType, Data)]()
+						if let types = pb.types {
+							oldPaste = types.filter { pb.data(forType: $0) != nil }.map { t in (t, pb.data(forType: t)!) }
+						}
+						pb.clearContents()
+						pb.setString(source, forType: .string)
+						FakeKey.send(fakeKey: "V", useCommandFlag: true)
+						DispatchQueue.main.asyncAfter(wallDeadline: .now() + .milliseconds(200)) {
+							pb.clearContents()
+							oldPaste.forEach { pb.setData($0.1, forType: $0.0) }
+						}
+					}
 				}
 			}
 			KeyboardShortcuts.onKeyDown(for: .simpleAdvanceSlide) {
@@ -134,24 +165,17 @@ struct MainView: View {
 				NSNotification.post("screen", 2, 2)
 			}
 		}
-		.background(KeyEventHandling { key, code, modifiers in
-			let cmd = modifiers.contains(.command)
-			let opt = modifiers.contains(.option)
-			if cmd && opt {
-				switch key {
-					case ".":
-						showSettings.toggle()
-					case "s":
-						save()
-					case "q":
-						save()
-						NSApplication.shared.windows.forEach { $0.alphaValue = 0 }
-						DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) { exit(0) }
-					default:
-						break
-				}
-			}
-		})
+		.onReceive(NSNotification.publisher("settings")) { _ in
+			showSettings.toggle()
+		}
+		.onReceive(NSNotification.publisher("save")) { _ in
+			save()
+		}
+		.onReceive(NSNotification.publisher("quit")) { _ in
+			save()
+			NSApplication.shared.windows.forEach { $0.alphaValue = 0 }
+			DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) { exit(0) }
+		}
 	}
 }
 

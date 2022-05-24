@@ -193,7 +193,7 @@ struct TextViewRepresentable: NSViewRepresentable {
 				return false
 			}
 			if commandSelector == #selector(NSResponder.cancelOperation(_:)) || commandSelector == #selector(NSSavePanel.cancel(_:)) {
-				KeyEventHandling.focusOnWindow(textView.window)
+				NSApplication.unfocus()
 				return true
 			}
 			if commandSelector == #selector(NSResponder.insertNewline(_:)) {

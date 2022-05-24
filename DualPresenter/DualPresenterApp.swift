@@ -17,9 +17,9 @@ struct DualPresenterApp: App {
 				.onReceive(NotificationCenter.default.publisher(for: NSApplication.willUpdateNotification), perform: { _ in
 					if let window = NSApplication.shared.windows.first {
 						window.showsResizeIndicator = false
-						window.standardWindowButton(NSWindow.ButtonType.closeButton)!.isHidden = true
-						window.standardWindowButton(NSWindow.ButtonType.zoomButton)!.isHidden = true
-						window.standardWindowButton(NSWindow.ButtonType.miniaturizeButton)!.isHidden = true
+						window.standardWindowButton(NSWindow.ButtonType.closeButton)?.isHidden = true
+						window.standardWindowButton(NSWindow.ButtonType.zoomButton)?.isHidden = true
+						window.standardWindowButton(NSWindow.ButtonType.miniaturizeButton)?.isHidden = true
 					}
 				})
 		}

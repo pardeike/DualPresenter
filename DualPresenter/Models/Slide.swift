@@ -34,4 +34,5 @@ struct SlideText: Codable {
 struct Slide: Codable {
 	var title = SlideText(text: "", size: 64)
 	var content = SlideText(text: "", size: 48)
+	var source = ""
 }
