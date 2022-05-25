@@ -18,15 +18,10 @@ class FocusAwareTextView: NSTextView {
 	var name: String = ""
 	var simple = false
 	var onFocusLost: (() -> Void)? = nil
-	var modifierFlags: NSEvent.ModifierFlags = .init(rawValue: 0)
 	
 	override func resignFirstResponder() -> Bool {
 		onFocusLost?()
 		return super.resignFirstResponder()
-	}
-	
-	override func flagsChanged(with event: NSEvent) {
-		modifierFlags = event.modifierFlags
 	}
 	
 	override func shouldChangeText(in affectedCharRange: NSRange, replacementString: String?) -> Bool {
@@ -76,7 +71,7 @@ class FocusAwareTextView: NSTextView {
 			pasteAsPlainText(sender)
 			return
 		}
-		if modifierFlags.contains(.shift) {
+		if CGKeyCode.shiftKeys.isPressed {
 			let pb = NSPasteboard.general
 			let aStrings = pb.readObjects(forClasses: [NSAttributedString.self]) as! [NSAttributedString]
 			if let str = aStrings.first {
@@ -126,24 +121,15 @@ struct TextViewRepresentable: NSViewRepresentable {
 		nsTextView.importsGraphics = true
 		nsTextView.allowsImageEditing = true
 		nsTextView.font = NSFont.systemFont(ofSize: CGFloat($size.wrappedValue))
-		
-		let view = NSView()
-		view.addSubview(nsTextView)
-		nsTextView.translatesAutoresizingMaskIntoConstraints = false
-		NSLayoutConstraint.activate([
-			nsTextView.topAnchor.constraint(equalTo: view.topAnchor),
-			nsTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-			nsTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-			nsTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-		])
-		return view
+		return nsTextView
 	}
 	
 	func updateNSView(_ view: NSView, context: Context) {
-		let nsTextView = view.subviews.first! as! NSTextView
-		let sel = nsTextView.selectedRange()
-		nsTextView.textStorage?.setAttributedString(text)
-		nsTextView.setSelectedRange(sel)
+		if let nsTextView = view as? NSTextView {
+			let sel = nsTextView.selectedRange()
+			nsTextView.textStorage?.setAttributedString(text)
+			nsTextView.setSelectedRange(sel)
+		}
 	}
 	
 	func makeCoordinator() -> Coordinator {
@@ -221,12 +207,7 @@ struct TextViewRepresentable: NSViewRepresentable {
 			paragraphStyle.lineHeightMultiple = 1.2
 			paragraphStyle.lineSpacing = 0
 			paragraphStyle.paragraphSpacing = size
-			paragraphStyle.tabStops = [
-				NSTextTab(textAlignment: .left, location: 1 * size),
-				NSTextTab(textAlignment: .left, location: 2 * size),
-				NSTextTab(textAlignment: .left, location: 3 * size),
-				NSTextTab(textAlignment: .left, location: 4 * size)
-			]
+			paragraphStyle.tabStops = stride(from: 1, to: 20, by: 1).map { NSTextTab(textAlignment: .left, location: $0 * size) }
 			textStorage.addAttributes([.paragraphStyle: paragraphStyle], range: editedRange)
 			textStorage.removeAttribute(.backgroundColor, range: editedRange)
 		}

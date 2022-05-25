@@ -14,6 +14,9 @@ struct DualPresenterApp: App {
 					Image("background")
 						.resizable()
 				)
+				.onTapGesture {
+					NSNotification.post("select", id: "")
+				}
 				.onReceive(NotificationCenter.default.publisher(for: NSApplication.willUpdateNotification), perform: { _ in
 					if let window = NSApplication.shared.windows.first {
 						window.showsResizeIndicator = false

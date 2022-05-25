@@ -48,6 +48,24 @@ struct MainView: View {
 		.sheet(isPresented: $showSourceCode) {
 			SourceCode(source: $currentSlide.source)
 		}
+		.onDrop(of: ["public.url", "public.file-url"], isTargeted: nil) { (items) -> Bool in
+			if slideNr >= 0, let item = items.first {
+				if let identifier = item.registeredTypeIdentifiers.first {
+					if identifier == "public.url" || identifier == "public.file-url" {
+						Task {
+							item.loadItem(forTypeIdentifier: identifier, options: nil) { urlData, error in
+								if let urlData = urlData as? Data {
+									let url = NSURL(absoluteURLWithDataRepresentation: urlData, relativeTo: nil) as URL
+									currentSlide.graphics.append(Graphic(url: url, rect: NSRect(x: 0.25, y: 0.25, width: 0.5, height: 0.5)))
+								}
+							}
+						}
+					}
+				}
+				return true
+			}
+			return false
+		}
 		.onAppear {
 			if let first = presentation.slides.first {
 				slideNr = 0

@@ -31,8 +31,15 @@ struct SlideText: Codable {
 	}
 }
 
+struct Graphic: Codable, Identifiable {
+	var id = UUID().uuidString
+	var url: URL
+	var rect: NSRect
+}
+
 struct Slide: Codable {
 	var title = SlideText(text: "", size: 64)
 	var content = SlideText(text: "", size: 48)
 	var source = ""
+	var graphics = [Graphic]()
 }

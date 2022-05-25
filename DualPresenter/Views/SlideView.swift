@@ -97,6 +97,7 @@ struct SlideView: View {
 	let slideNr: Int
 	let slideCount: Int
 	@Binding var currentSlide: Slide
+	@State var selectedGraphicId: String? = nil
 	
 	func p(_ geo: GeometryProxy) -> CGFloat { 80 /* geo.size.height / 12 */ }
 	
@@ -105,21 +106,32 @@ struct SlideView: View {
 			ZStack(alignment: .topLeading) {
 				VStack {
 					CustomizableTextEditor(simple: true, name: "select-title", text: $currentSlide.title)
+						//.background(.white.opacity(0.1))
 						.fixedSize(horizontal: false, vertical: true)
 						.padding(EdgeInsets(top: 0, leading: 0, bottom: p(geo), trailing: 0))
 					
-					VStack {
-						CustomizableTextEditor(simple: false, name: "select-content", text: $currentSlide.content)
-						Spacer()
-					}
-					.padding(EdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 0))
+					CustomizableTextEditor(simple: false, name: "select-content", text: $currentSlide.content)
+						//.background(.white.opacity(0.1))
+						.padding(EdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 0))
 					
 					Text("\(slideNr + 1) / \(slideCount)")
 				}
 				.padding(EdgeInsets(top: p(geo), leading: p(geo), bottom: 40, trailing: p(geo)))
 				
+				ForEach($currentSlide.graphics) { graphic in
+					GraphicView(graphic: graphic, portSize: geo.size)
+				}
+				
 				SlideViewGrabber(size: geo.size, name: "Xcode", idx: 1)
 				SlideViewGrabber(size: geo.size, name: "Code", idx: 2)
+			}
+			.onReceive(NSNotification.publisher("select")) { evt in
+				selectedGraphicId = evt.userInfo?["id"] as? String
+			}
+			.onDeleteCommand {
+				if let id = selectedGraphicId {
+					currentSlide.graphics.removeAll { $0.id == id }
+				}
 			}
 		}
 	}
