@@ -28,6 +28,8 @@
 		06E105C3283D346B00DEF274 /* FakeKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E105C2283D346B00DEF274 /* FakeKey.swift */; };
 		06F3662B282957E60037B965 /* Slide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F3662A282957E60037B965 /* Slide.swift */; };
 		06F3662D28295F4C0037B965 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F3662C28295F4C0037B965 /* AppDelegate.swift */; };
+		E1437515284B97C500084A99 /* SlideViewGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1437514284B97C500084A99 /* SlideViewGrabber.swift */; };
+		E175327E284623E200F86590 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = E175327D284623E200F86590 /* KeyboardShortcuts */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +57,7 @@
 		06E105C2283D346B00DEF274 /* FakeKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeKey.swift; sourceTree = "<group>"; };
 		06F3662A282957E60037B965 /* Slide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slide.swift; sourceTree = "<group>"; };
 		06F3662C28295F4C0037B965 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E1437514284B97C500084A99 /* SlideViewGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideViewGrabber.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +66,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				06578703283248E20097F3BB /* KeyboardShortcuts in Frameworks */,
+				E175327E284623E200F86590 /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,6 +150,7 @@
 			children = (
 				065D43D8281FC1E50078EC9D /* MainView.swift */,
 				06625A9E28297B36003B2B6D /* SlideView.swift */,
+				E1437514284B97C500084A99 /* SlideViewGrabber.swift */,
 				066D5267282A39BA008C0200 /* PreviewView.swift */,
 				065787042832497D0097F3BB /* SettingsScreen.swift */,
 				06E105C0283D2D7700DEF274 /* SourceCode.swift */,
@@ -173,6 +178,7 @@
 			name = DualPresenter;
 			packageProductDependencies = (
 				06578702283248E20097F3BB /* KeyboardShortcuts */,
+				E175327D284623E200F86590 /* KeyboardShortcuts */,
 			);
 			productName = DualPresenter;
 			productReference = 065D43D3281FC1E50078EC9D /* DualPresenter.app */;
@@ -186,7 +192,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1330;
-				LastUpgradeCheck = 1330;
+				LastUpgradeCheck = 1340;
 				TargetAttributes = {
 					065D43D2281FC1E50078EC9D = {
 						CreatedOnToolsVersion = 13.3.1;
@@ -203,6 +209,7 @@
 			);
 			mainGroup = 065D43CA281FC1E50078EC9D;
 			packageReferences = (
+				E175327C284623E200F86590 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 			);
 			productRefGroup = 065D43D4281FC1E50078EC9D /* Products */;
 			projectDirPath = "";
@@ -235,6 +242,7 @@
 				065787052832497D0097F3BB /* SettingsScreen.swift in Sources */,
 				065D43D9281FC1E50078EC9D /* MainView.swift in Sources */,
 				06A4A2F7283E3F660099ED06 /* GraphicView.swift in Sources */,
+				E1437515284B97C500084A99 /* SlideViewGrabber.swift in Sources */,
 				065D43D7281FC1E50078EC9D /* DualPresenterApp.swift in Sources */,
 				06A4A2F9283E60AC0099ED06 /* Handle.swift in Sources */,
 				066D5268282A39BA008C0200 /* PreviewView.swift in Sources */,
@@ -373,12 +381,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DualPresenter/DualPresenter.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = U69L99G3AF;
-				ENABLE_HARDENED_RUNTIME = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DualPresenter/Info.plist;
@@ -391,6 +399,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pardeike.lab.DualPresenter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -402,12 +411,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DualPresenter/DualPresenter.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = U69L99G3AF;
-				ENABLE_HARDENED_RUNTIME = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DualPresenter/Info.plist;
@@ -420,6 +429,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pardeike.lab.DualPresenter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -448,9 +458,25 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		E175327C284623E200F86590 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		06578702283248E20097F3BB /* KeyboardShortcuts */ = {
 			isa = XCSwiftPackageProductDependency;
+			productName = KeyboardShortcuts;
+		};
+		E175327D284623E200F86590 /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E175327C284623E200F86590 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
 			productName = KeyboardShortcuts;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -30,20 +30,10 @@ struct SettingsScreen: View {
 						KeyboardShortcuts.Recorder("Select Content", name: .selectContentField)
 							.padding(.bottom, 20)
 					}
-					Section("App 1") {
-						KeyboardShortcuts.Recorder("From Left", name: .app1FromLeft)
-						KeyboardShortcuts.Recorder("From Right", name: .app1FromRight)
-						KeyboardShortcuts.Recorder("From Center", name: .app1FromCenter)
-						KeyboardShortcuts.Recorder("From Top", name: .app1FromTop)
-						KeyboardShortcuts.Recorder("From Bottom", name: .app1FromBottom)
-							.padding(.bottom, 20)
-					}
-					Section("App 2") {
-						KeyboardShortcuts.Recorder("From Left", name: .app2FromLeft)
-						KeyboardShortcuts.Recorder("From Right", name: .app2FromRight)
-						KeyboardShortcuts.Recorder("From Center", name: .app2FromCenter)
-						KeyboardShortcuts.Recorder("From Top", name: .app2FromTop)
-						KeyboardShortcuts.Recorder("From Bottom", name: .app2FromBottom)
+					Section("Toggle Apps") {
+						KeyboardShortcuts.Recorder("VSCode", name: .toggleVSCode)
+						KeyboardShortcuts.Recorder("Xcode", name: .toggleXCode)
+						KeyboardShortcuts.Recorder("Simulator & Camera", name: .toggleExtras)
 							.padding(.bottom, 20)
 					}
 				}

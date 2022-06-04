@@ -17,6 +17,12 @@ extension NSApplication {
 	}
 }
 
+extension NSFont {
+	class func sfPro(_ size: Int) -> NSFont {
+		return NSFont(name: "SFProDisplay-Regular", size: CGFloat(size))!
+	}
+}
+
 extension CGPoint {
 	mutating func add(_ point: CGPoint) {
 		self = CGPoint(x: self.x + point.x, y: self.y + point.y)

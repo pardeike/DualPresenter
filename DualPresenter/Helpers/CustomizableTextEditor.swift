@@ -9,8 +9,8 @@ struct CustomizableTextEditor: View {
 	
 	var body: some View {
 		TextViewRepresentable(simple: simple, name: name, text: $text.text, size: $text.size)
-			.frame(minHeight: CGFloat($text.size.wrappedValue) * 1.2, alignment: .leading)
-			.clipped()
+			.frame(minHeight: CGFloat($text.size.wrappedValue) * 1.3, alignment: .leading)
+			//.clipped()
 	}
 }
 
@@ -107,7 +107,7 @@ struct TextViewRepresentable: NSViewRepresentable {
 	@Environment(\.undoManager) var undoManger
 	
 	func makeNSView(context: Context) -> NSView {
-		let nsTextView = FocusAwareTextView()
+		let nsTextView = FocusAwareTextView(frame: .zero)
 		nsTextView.name = name
 		nsTextView.simple = simple
 		nsTextView.onFocusLost = {
@@ -120,15 +120,17 @@ struct TextViewRepresentable: NSViewRepresentable {
 		nsTextView.allowsUndo = true
 		nsTextView.importsGraphics = true
 		nsTextView.allowsImageEditing = true
-		nsTextView.font = NSFont.systemFont(ofSize: CGFloat($size.wrappedValue))
+		nsTextView.font = NSFont.sfPro($size.wrappedValue)
 		return nsTextView
 	}
 	
 	func updateNSView(_ view: NSView, context: Context) {
 		if let nsTextView = view as? NSTextView {
 			let sel = nsTextView.selectedRange()
-			nsTextView.textStorage?.setAttributedString(text)
+			let newStorage = NSTextStorage(attributedString: text)
+			nsTextView.layoutManager?.replaceTextStorage(newStorage)
 			nsTextView.setSelectedRange(sel)
+			nsTextView.sizeToFit()
 		}
 	}
 	
@@ -196,9 +198,7 @@ struct TextViewRepresentable: NSViewRepresentable {
 				  let nsTextView = notification.object as? NSTextView else {
 				return
 			}
-			if let textStorage = nsTextView.textStorage {
-				parent?.text = textStorage.attributedSubstring(from: NSMakeRange(0, nsTextView.string.count))
-			}
+			parent?.text = nsTextView.attributedString()
 		}
 		
 		func textStorage(_ textStorage: NSTextStorage, didProcessEditing editedMask: NSTextStorageEditActions, range editedRange: NSRange, changeInLength delta: Int) {

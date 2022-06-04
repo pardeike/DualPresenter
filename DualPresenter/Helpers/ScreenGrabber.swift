@@ -9,7 +9,7 @@ struct ScreenGrabber: View {
 	
 	var body: some View {
 		ScreenGrabberRepresentable(app: app, width: width, height: height)
-			.background(.black.opacity(0.2))
+			//.background(.black.opacity(0.5))
 	}
 }
 
@@ -55,10 +55,9 @@ struct ScreenGrabberRepresentable: NSViewRepresentable {
 		let previewView: PreviewView
 		var currentStream: SCStream?
 		
-		func streamConfiguration(window: SCWindow, screenWidth: Double, screenHeight: Double) -> SCStreamConfiguration {
+		func streamConfiguration(winFrame: NSRect, screenWidth: Double, screenHeight: Double) -> SCStreamConfiguration {
 			let streamConfig = SCStreamConfiguration()
 			streamConfig.queueDepth = 5
-			let winFrame = window.frame
 			let f = max(screenWidth / winFrame.width, screenHeight / winFrame.height)
 			streamConfig.width = Int(screenWidth / f)
 			streamConfig.height = Int(screenHeight / f)
@@ -68,36 +67,29 @@ struct ScreenGrabberRepresentable: NSViewRepresentable {
 			return streamConfig
 		}
 		
-		func isAppWindow(_ window: SCWindow) -> Bool {
-			return window.isOnScreen && window.frame.width > 400 && (window.owningApplication?.applicationName ?? "") == self.app
-		}
-		
-		func getXCodeWindow() -> SCWindow? {
-			var result: SCWindow?
-			let group = DispatchGroup()
-			group.enter()
+		func updateStream(_ screenWidth: Double, _ screenHeight: Double) {
 			SCShareableContent.getExcludingDesktopWindows(true, onScreenWindowsOnly: true) { sharableContent, error in
 				if error == nil, let sharableContent = sharableContent {
-					if let window = sharableContent.windows.first(where: self.isAppWindow) {
-						result = window
+					if let window = sharableContent.windows.first(where: { win in
+						return win.title != "" && win.frame.width > 128 && win.frame.width < 1920 && (win.owningApplication?.applicationName ?? "") == self.app
+					}) {
+						if let currentStream = self.currentStream {
+							currentStream.updateConfiguration(self.streamConfiguration(winFrame: window.frame, screenWidth: screenWidth, screenHeight: screenHeight))
+						} else {
+							let filter = SCContentFilter(desktopIndependentWindow: window)
+							let config = self.streamConfiguration(winFrame: window.frame, screenWidth: screenWidth, screenHeight: screenHeight)
+							let stream = SCStream(filter: filter, configuration: config, delegate: nil)
+							try! stream.addStreamOutput(self, type: .screen, sampleHandlerQueue: .main)
+							stream.startCapture { err in
+								if let err = err {
+									print("Error \(err)")
+								}
+							}
+							self.currentStream = stream
+						}
 					}
 				}
-				group.leave()
 			}
-			group.wait()
-			return result
-		}
-		
-		func updateStream(_ screenWidth: Double, _ screenHeight: Double) {
-			guard let window = getXCodeWindow() else { return }
-			if currentStream == nil {
-				let filter = SCContentFilter(desktopIndependentWindow: window)
-				let config = self.streamConfiguration(window: window, screenWidth: screenWidth, screenHeight: screenHeight)
-				currentStream = SCStream(filter: filter, configuration: config, delegate: nil)
-				try! currentStream!.addStreamOutput(self, type: .screen, sampleHandlerQueue: .main)
-				currentStream!.startCapture(completionHandler: nil)
-			}
-			currentStream?.updateConfiguration(self.streamConfiguration(window: window, screenWidth: screenWidth, screenHeight: screenHeight))
 		}
 		
 		init(_ app: String, _ screenWidth: Double, _ screenHeight: Double, _ previewView: PreviewView) {

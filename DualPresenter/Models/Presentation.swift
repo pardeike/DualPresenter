@@ -1,7 +1,19 @@
 import SwiftUI
 
 struct Presentation: Codable {
+	var slideNr: Int
+	{
+		get { _slideNr ?? -1 }
+		set { _slideNr = newValue }
+	}
+	
 	var slides: [Slide] = []
+	var _slideNr: Int?
+	
+	enum CodingKeys: String, CodingKey {
+		case slides
+		case _slideNr = "slideNr"
+	}
 	
 	static func load(_ url: URL) -> Presentation {
 		do {

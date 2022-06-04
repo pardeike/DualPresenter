@@ -1,4 +1,5 @@
 import AppKit
+import ScreenCaptureKit
 
 class AppDelegate: NSObject, NSApplicationDelegate {
 
@@ -10,6 +11,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			NSFontPanel.shared.close()
 		}
 		NSApplication.unfocus()
+		
+		/*print("Available windows:")
+		SCShareableContent.getExcludingDesktopWindows(true, onScreenWindowsOnly: true) { sharableContent, error in
+			if error == nil, let sharableContent = sharableContent {
+				sharableContent.windows.forEach { win in
+					print("- \(win.owningApplication?.applicationName ?? "???") \(win.frame.width) x \(win.frame.height)")
+				}
+			}
+		}*/
 	}
 	
 	func applicationWillUpdate(_ notification: Notification) {

@@ -1,12 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "swift-docc-plugin",
+      "identity" : "keyboardshortcuts",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-docc-plugin",
+      "location" : "https://github.com/sindresorhus/KeyboardShortcuts",
       "state" : {
-        "revision" : "3303b164430d9a7055ba484c8ead67a52f7b74f6",
-        "version" : "1.0.0"
+        "branch" : "main",
+        "revision" : "5e453238c13a42a3448f1effc53c4a7a4cd22c15"
       }
     }
   ],

@@ -7,7 +7,7 @@ struct SlideText: Codable {
 	init(text: String, size: Int) {
 		let txt = NSMutableAttributedString(string: text)
 		txt.addAttribute(.foregroundColor, value: NSColor.white, range: NSRange(location: 0, length: txt.length))
-		txt.addAttribute(.font, value: NSFont.systemFont(ofSize: CGFloat(size)), range: NSRange(location: 0, length: txt.length))
+		txt.addAttribute(.font, value: NSFont.sfPro(size), range: NSRange(location: 0, length: txt.length))
 		self.text = txt
 		self.size = size
 	}
@@ -38,7 +38,7 @@ struct Graphic: Codable, Identifiable {
 }
 
 struct Slide: Codable {
-	var title = SlideText(text: "", size: 64)
+	var title = SlideText(text: "", size: 80)
 	var content = SlideText(text: "", size: 48)
 	var source = ""
 	var graphics = [Graphic]()

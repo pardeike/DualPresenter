@@ -1,103 +1,14 @@
 import SwiftUI
 
-struct SlideViewGrabber: View {
-	
-	let size: CGSize
-	let name: String
-	let idx: Int
-	
-	@State var animateScreen = 0
-	@State var lastScreenState = -999
-	@State var offsetX: [Double] = [0.5, 0]
-	@State var offsetY: [Double] = [0.5, 0]
-	@State var sizeX: [Double] = [0, 0]
-	@State var sizeY: [Double] = [0, 0]
-	
-	func oX() -> Double { size.width * offsetX[lastScreenState < 0 ? 0 : 1] }
-	func oY() -> Double { size.height * offsetY[lastScreenState < 0 ? 0 : 1] }
-	func sX() -> Double { size.width * sizeX[lastScreenState < 0 ? 0 : 1] }
-	func sY() -> Double { size.height * sizeY[lastScreenState < 0 ? 0 : 1] }
-	
-	func setScreenState(_ idx: Int?) {
-		
-		guard let idx = idx else { return }
-		if lastScreenState == idx {
-			offsetX[1] = offsetX[0]
-			offsetY[1] = offsetY[0]
-			sizeX[1] = sizeX[0]
-			sizeY[1] = sizeY[0]
-			lastScreenState = -idx
-			animateScreen += 1
-			return
-		}
-		
-		lastScreenState = -idx
-		animateScreen += 1
-		
-		DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(210)) {
-			if idx == 2 {
-				offsetX = [0.5, 0.5]
-				offsetY = [1, 0.5]
-				sizeX = [1, 1]
-				sizeY = [0.5, 0.5]
-			}
-			if idx == 4 {
-				offsetX = [-0.5, 0]
-				offsetY = [0.5, 0.5]
-				sizeX = [0.5, 0.5]
-				sizeY = [1, 1]
-			}
-			if idx == 5 {
-				offsetX = [0, 0.5]
-				offsetY = [0, 0.5]
-				sizeX = [0.0001, 1]
-				sizeY = [0.0001, 1]
-			}
-			if idx == 6 {
-				offsetX = [1, 0.5]
-				offsetY = [0.5, 0.5]
-				sizeX = [0.5, 0.5]
-				sizeY = [1, 1]
-			}
-			if idx == 8 {
-				offsetX = [0.5, 0.5]
-				offsetY = [-0.5, 0]
-				sizeX = [1, 1]
-				sizeY = [0.5, 0.5]
-			}
-			
-			DispatchQueue.main.async {
-				lastScreenState = idx
-				animateScreen += 1
-			}
-		}
-	}
-	
-	var body: some View {
-		ZStack {
-			if sX() > 0.0001 {
-				ScreenGrabber(app: name, width: sX(), height: sY())
-					.position(x: oX(), y: oY())
-					.frame(width: sX(), height: sY())
-					.animation(.linear(duration: 0.2), value: animateScreen)
-			}
-		}
-		.frame(width: size.width, height: size.height)
-		.onReceive(NSNotification.publisher("screen")) { val in
-			if let n = val.userInfo?["a"] as? Int, n == idx {
-				let b = val.userInfo?["b"] as? Int
-				setScreenState(b)
-			}
-		}
-	}
-}
-
 struct SlideView: View {
 	
 	let slideNr: Int
 	let slideCount: Int
 	@Binding var currentSlide: Slide
 	@State var selectedGraphicId: String? = nil
+	@State var showXCode = false
+	@State var showVSCode = false
+	@State var showExtras = false
 	
 	func p(_ geo: GeometryProxy) -> CGFloat { 80 /* geo.size.height / 12 */ }
 	
@@ -122,11 +33,23 @@ struct SlideView: View {
 					GraphicView(graphic: graphic, portSize: geo.size)
 				}
 				
-				SlideViewGrabber(size: geo.size, name: "Xcode", idx: 1)
-				SlideViewGrabber(size: geo.size, name: "Code", idx: 2)
+				SlideViewGrabber(geoSize: geo.size, name: "Code - Insiders", offsetX: [-0.25, 0.25], offsetY: [0.5, 0.5], scaleX: 0.5, scaleY: 1, clipX: 1, clipY: 1, show: $showVSCode)
+				SlideViewGrabber(geoSize: geo.size, name: "Xcode", offsetX: [1.25, 0.75], offsetY: [0.5, 0.5], scaleX: 0.5, scaleY: 1, clipX: 1, clipY: 1, show: $showXCode)
+				
+				SlideViewGrabber(geoSize: geo.size, name: "Simulator", offsetX: [-0.11, 0.11], offsetY: [0.68, 0.68], scaleX: 0.22, scaleY: 1, clipX: 1, clipY: 0.9, show: $showExtras)
+				SlideViewGrabber(geoSize: geo.size, name: "Camo Studio", offsetX: [-0.11, 0.11], offsetY: [0.475, 0.475], scaleX: 0.22, scaleY: 1, clipX: 1, clipY: 0.7, show: $showExtras)
 			}
 			.onReceive(NSNotification.publisher("select")) { evt in
 				selectedGraphicId = evt.userInfo?["id"] as? String
+			}
+			.onReceive(NSNotification.publisher("xcode")) { _ in
+				showXCode.toggle()
+			}
+			.onReceive(NSNotification.publisher("vscode")) { _ in
+				showVSCode.toggle()
+			}
+			.onReceive(NSNotification.publisher("extras")) { _ in
+				showExtras.toggle()
 			}
 			.onDeleteCommand {
 				if let id = selectedGraphicId {
