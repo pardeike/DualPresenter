@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SlideViewGrabber: View {
 	
+	let slideNr: Int
 	let geoSize: CGSize
 	let name: String
 	let offsetX: [Double]
@@ -20,7 +21,7 @@ struct SlideViewGrabber: View {
 	
 	var body: some View {
 		HStack {
-			ScreenGrabber(app: name, width: geoSize.width * scaleX, height: geoSize.height * scaleY)
+			ScreenGrabber(slideNr: slideNr + (show ? 10000 : 0), app: name, width: geoSize.width * scaleX, height: geoSize.height * scaleY)
 				.frame(width: geoSize.width * scaleX, height: geoSize.height * scaleY)
 		}
 		.clipped()

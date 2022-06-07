@@ -9,8 +9,7 @@ struct CustomizableTextEditor: View {
 	
 	var body: some View {
 		TextViewRepresentable(simple: simple, name: name, text: $text.text, size: $text.size)
-			.frame(minHeight: CGFloat($text.size.wrappedValue) * 1.3, alignment: .leading)
-			//.clipped()
+			.frame(minHeight: CGFloat($text.size.wrappedValue) * 1.4, alignment: .leading)
 	}
 }
 

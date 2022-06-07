@@ -17,4 +17,13 @@ class PreviewView: NSView {
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
+	
+	func recreateLayer() {
+		displayLayer = AVSampleBufferDisplayLayer()
+		displayLayer.preventsDisplaySleepDuringVideoPlayback = true
+		displayLayer.frame = NSRect.zero
+		displayLayer.backgroundColor = .clear
+		displayLayer.videoGravity = .resize
+		layer = displayLayer
+	}
 }

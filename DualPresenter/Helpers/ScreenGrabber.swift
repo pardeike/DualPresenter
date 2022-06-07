@@ -3,12 +3,14 @@ import SwiftUI
 import ScreenCaptureKit
 
 struct ScreenGrabber: View {
+	
+	let slideNr: Int
 	let app: String
 	let width: Double
 	let height: Double
 	
 	var body: some View {
-		ScreenGrabberRepresentable(app: app, width: width, height: height)
+		ScreenGrabberRepresentable(slideNr: slideNr, app: app, width: width, height: height)
 			//.background(.black.opacity(0.5))
 	}
 }
@@ -16,12 +18,14 @@ struct ScreenGrabber: View {
 struct ScreenGrabberRepresentable: NSViewRepresentable {
 	typealias Representable = Self
 	
+	let slideNr: Int
 	let app: String
 	let width: Double
 	let height: Double
 	let previewView: PreviewView
 	
-	init(app: String, width: Double, height: Double) {
+	init(slideNr: Int, app: String, width: Double, height: Double) {
+		self.slideNr = slideNr
 		self.app = app
 		self.width = width
 		self.height = height
@@ -43,14 +47,15 @@ struct ScreenGrabberRepresentable: NSViewRepresentable {
 	}
 	
 	func updateNSView(_ view: NSView, context: Context) {
-		context.coordinator.updateStream(width, height)
+		context.coordinator.updateStream(previewView, width, height)
 	}
 	
 	func makeCoordinator() -> Coordinator {
-		return Coordinator(app, width, height, previewView)
+		return Coordinator(slideNr, app, width, height, previewView)
 	}
 	
 	class Coordinator: NSObject, SCStreamOutput {
+		let slideNr: Int
 		let app: String
 		let previewView: PreviewView
 		var currentStream: SCStream?
@@ -67,12 +72,16 @@ struct ScreenGrabberRepresentable: NSViewRepresentable {
 			return streamConfig
 		}
 		
-		func updateStream(_ screenWidth: Double, _ screenHeight: Double) {
+		func updateStream(_ previewView: PreviewView, _ screenWidth: Double, _ screenHeight: Double) {
+			// print("Getting windows for \(app)")
+			var found = false
 			SCShareableContent.getExcludingDesktopWindows(true, onScreenWindowsOnly: true) { sharableContent, error in
-				if error == nil, let sharableContent = sharableContent {
+				if let sharableContent = sharableContent {
 					if let window = sharableContent.windows.first(where: { win in
 						return win.title != "" && win.frame.width > 128 && win.frame.width < 1920 && (win.owningApplication?.applicationName ?? "") == self.app
 					}) {
+						print("- \(window.title ?? "")")
+						found = true
 						if let currentStream = self.currentStream {
 							currentStream.updateConfiguration(self.streamConfiguration(winFrame: window.frame, screenWidth: screenWidth, screenHeight: screenHeight))
 						} else {
@@ -89,14 +98,22 @@ struct ScreenGrabberRepresentable: NSViewRepresentable {
 						}
 					}
 				}
+				if found == false || error != nil {
+					if let currentStream = self.currentStream {
+						currentStream.stopCapture()
+						try? currentStream.removeStreamOutput(self, type: .screen)
+						self.currentStream = nil
+					}
+				}
 			}
 		}
 		
-		init(_ app: String, _ screenWidth: Double, _ screenHeight: Double, _ previewView: PreviewView) {
+		init(_ slideNr: Int, _ app: String, _ screenWidth: Double, _ screenHeight: Double, _ previewView: PreviewView) {
+			self.slideNr = slideNr
 			self.app = app
 			self.previewView = previewView
 			super.init()
-			updateStream(screenWidth, screenHeight)
+			updateStream(previewView, screenWidth, screenHeight)
 		}
 		
 		func stream(_ stream: SCStream, didOutputSampleBuffer sampleBuffer: CMSampleBuffer, of type: SCStreamOutputType) {
